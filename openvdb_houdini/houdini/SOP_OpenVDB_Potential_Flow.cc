@@ -350,7 +350,7 @@ struct PotentialFlowOp
 
         using namespace openvdb;
 
-        typename VelGridT::Ptr neumann = tools::createPotentialFlowNeumannVelocities(
+        neumann = tools::createPotentialFlowNeumannVelocities(
             mSolidBoundary, mDomain, mBoundaryVelocity, mBackgroundVelocity);
 
         // create solver state
@@ -371,6 +371,7 @@ struct PotentialFlowOp
     }
 
     typename VelGridT::Ptr flowvel;
+    typename VelGridT::Ptr neumann;
     typename GridT::Ptr potential;
 
 private:
@@ -581,6 +582,7 @@ SOP_OpenVDB_Potential_Flow::cookMySop(OP_Context& context)
                 hvdb::createVdbPrimitive(*gdp, potentialFlowOp.flowvel, "flowvel");
                 if (outputPotential) {
                     hvdb::createVdbPrimitive(*gdp, potentialFlowOp.potential, "potential");
+                    hvdb::createVdbPrimitive(*gdp, potentialFlowOp.neumann, "neumann");
                 }
             }
             else {
@@ -595,6 +597,7 @@ SOP_OpenVDB_Potential_Flow::cookMySop(OP_Context& context)
                 hvdb::createVdbPrimitive(*gdp, potentialFlowOp.flowvel, "flowvel");
                 if (outputPotential) {
                     hvdb::createVdbPrimitive(*gdp, potentialFlowOp.potential, "potential");
+                    hvdb::createVdbPrimitive(*gdp, potentialFlowOp.neumann, "neumann");
                 }
             }
 
